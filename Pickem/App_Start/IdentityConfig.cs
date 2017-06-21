@@ -48,6 +48,7 @@ namespace Pickem
 
             mail.Subject = message.Subject;
             mail.Body = message.Body;
+            mail.IsBodyHtml = true;
 
             // Send:
             return client.SendMailAsync(mail);
