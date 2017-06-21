@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Pickem.Models;
+using System.Configuration;
 
 namespace Pickem
 {
@@ -19,7 +20,37 @@ namespace Pickem
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+
+            // Credentials:
+            // We are storing the real credentials in the file WebPrivateAppSettings.config for better security.
+            var sendGridUserName = ConfigurationManager.AppSettings["SendGridUsername"];
+            var sentFrom = ConfigurationManager.AppSettings["SendGridFrom"];
+            var sendGridPassword = ConfigurationManager.AppSettings["SendGridPassword"];
+
+            // Configure the client:
+            var client =
+                new System.Net.Mail.SmtpClient("smtp.sendgrid.net", Convert.ToInt32(587));
+
+            client.Port = 587;
+            client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+
+            // Creatte the credentials:
+            System.Net.NetworkCredential credentials =
+                new System.Net.NetworkCredential(sendGridUserName, sendGridPassword);
+
+            client.EnableSsl = true;
+            client.Credentials = credentials;
+
+            // Create the message:
+            var mail =
+                new System.Net.Mail.MailMessage(sentFrom, message.Destination);
+
+            mail.Subject = message.Subject;
+            mail.Body = message.Body;
+
+            // Send:
+            return client.SendMailAsync(mail);
         }
     }
 
@@ -54,7 +85,7 @@ namespace Pickem
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
+                RequireNonLetterOrDigit = false,
                 RequireDigit = true,
                 RequireLowercase = true,
                 RequireUppercase = true,
