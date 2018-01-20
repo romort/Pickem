@@ -19,5 +19,10 @@ namespace Pickem.Controllers
         {
             return View();
         }
+
+        public ActionResult TeamEdit()
+        {
+            return View();
+        }
     }
 }

@@ -274,6 +274,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Account\EmailNotConfirmed.cshtml" />
+    <Content Include="Views\Admin\TeamEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
