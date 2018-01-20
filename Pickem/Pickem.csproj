@@ -270,7 +270,10 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Account\RegistrationThankYou.cshtml" />
     <Content Include="WebPrivateConnectionString.config" />
-    <Content Include="WebPrivateAppSettings.config" />
+    <Content Include="WebPrivateAppSettings.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Account\EmailNotConfirmed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
